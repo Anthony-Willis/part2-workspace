@@ -10,6 +10,8 @@ package com.entertainment.catalog;
 
 import static org.junit.Assert.*;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import com.entertainment.Television;
 
@@ -24,4 +26,33 @@ public class CatalogTest {
     assertNotNull(tvs);
     assertTrue(tvs.isEmpty());
   }
+
+  @Test
+  public void testFindByBrandWithMatches() {
+    Collection<Television> tvs = Catalog.findByBrand("Sony");
+    assertNotNull(tvs);
+    assertFalse(tvs.isEmpty());
+    assertEquals(7, tvs.size());
+  }
+
+  @Test //Map does not extend collections, but has similar methods
+  public void testFindByBrandsNoBrands() {
+    Map<String, Collection<Television>> selections = Catalog.findByBrands();
+    assertNotNull(selections);
+    assertTrue(selections.isEmpty());
+
+  }
+
+  @Test
+  public void testFindByBrandsSomeBrands() {
+    var selections = Catalog.findByBrands("Sony", "Zenith", "NO-MATCHES");//var, only if declaring and assigning at once
+    assertNotNull(selections);
+    assertFalse(selections.isEmpty());
+    assertEquals(3, selections.size());
+    assertEquals(7, selections.get("Sony").size());
+    assertEquals(9, selections.get("Zenith").size());
+    assertTrue(selections.get("NO-MATCHES").isEmpty());
+  }
+
+
 }
