@@ -12,23 +12,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import gov.irs.TaxPayer;
 
-public enum IRSEnum {
+enum IRSEnum implements IRS{
   INSTANCE;
-  
+
+
   // BUSINESS CODE
   private Collection<TaxPayer> payers = new ArrayList<>();
-  
+
   public void collectTaxes() {
     for (TaxPayer payer : payers) {
       payer.payTaxes();
     }
   }
-  
+
   public void register(TaxPayer payer) {
     payers.add(payer);
   }
-  
-  
+
+
   // not needed – just makes enum look more like regular singleton
   public static IRSEnum getInstance() {
     return INSTANCE;
@@ -38,12 +39,12 @@ public enum IRSEnum {
   static {
     System.out.println("--IRSEnum class loaded");
   }
-  
+
   // so we can see when INSTANCE is created
   IRSEnum() {
     System.out.println("--IRSEnum ctor: the instance has been created");
   }
-  
+
   /*
    * superfluous static method that shouldn't be here
    * if you call it, class is loaded and INSTANCE is created (prematurely)
